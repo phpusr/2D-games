@@ -40,7 +40,6 @@ def get_font(size: int, bold: bool = False) -> Font:
     if font:
         return font
 
-    print('Load font: ', font_cache_name)
     path = pathlib.Path(__file__).parent.resolve()
     font_name = 'Oswald-Bold.ttf' if bold else 'Oswald-Regular.ttf'
     font = pygame.font.Font(path / 'fonts' / font_name, size)
