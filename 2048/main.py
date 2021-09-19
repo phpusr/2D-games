@@ -3,6 +3,7 @@ import random
 import sys
 
 import pygame
+from pygame.font import Font
 from pygame.surface import Surface
 
 FPS = 60
@@ -11,7 +12,6 @@ BLOCK_MARGIN = 10
 TITLE_HEIGHT = 110
 ANIM_SLEEP_TIME = 25
 STORE_FILE = 'store.json'
-DEFAULT_FONT_NAME = 'Arial'
 
 TITLE_COLOR = (243, 220, 202)
 FIELD_COLOR = (187, 173, 160)
@@ -31,6 +31,12 @@ FIELD_COLORS[1024] = dict(fg=(249, 246, 242), bg=(237, 197, 63))
 FIELD_COLORS[2048] = dict(fg=(249, 246, 242), bg=(237, 194, 46))
 
 
+def get_font(size: int, bold: bool = False) -> Font:
+    font = pygame.font.Font('Oswald-Regular.ttf', size)
+    font.set_bold(bold)
+    return font
+
+
 class Game2048:
 
     def __init__(self):
@@ -42,16 +48,15 @@ class Game2048:
         self._width = self._array_size * BLOCK_SIZE + (self._array_size + 1) * BLOCK_MARGIN
         self._height = self._width + TITLE_HEIGHT
         self._clock = pygame.time.Clock()
-        self._font = pygame.font.SysFont(DEFAULT_FONT_NAME, 72)
         # Surfaces
         self._screen = pygame.display.set_mode((self._width, self._height))
         self._menu = pygame.Surface((self._width, TITLE_HEIGHT))
         self._menu_rect = self._menu.get_rect()
         self._field = pygame.Surface((self._width, self._width))
         self._field_rect = self._field.get_rect(top=TITLE_HEIGHT)
-        self._restart_button = self._create_button('(R)estart')
+        self._restart_button = self._create_button('[R]estart')
         self._restart_button_rect = self._restart_button.get_rect(topright=self._menu_rect.topright).move(-20, 15)
-        self._quit_button = self._create_button('(Q)uit')
+        self._quit_button = self._create_button('[Q]uit')
         self._quit_button_rect = self._quit_button.get_rect(bottomright=self._menu_rect.bottomright).move(-20, -15)
 
     def start(self, init_array=None):
@@ -210,7 +215,7 @@ class Game2048:
 
         # Game over drawing
         if self._game_over:
-            text = self._font.render('Game over', True, (0, 0, 0), (200, 200, 200))
+            text = get_font(72).render('Game over', True, (0, 0, 0), (200, 200, 200))
             text_rect = text.get_rect(center=(self._width / 2, self._height / 2))
             self._screen.blit(text, text_rect)
 
@@ -241,15 +246,15 @@ class Game2048:
         surface.fill(FIELD_COLOR)
 
         # Text rendering
-        font = pygame.font.SysFont(DEFAULT_FONT_NAME, 24)
+        font = get_font(26)
         text_surface = font.render(text, True, (220, 220, 220))
-        text_rect = text_surface.get_rect(midtop=surface.get_rect().midtop).move(0, 8)
+        text_rect = text_surface.get_rect(midtop=surface.get_rect().midtop).move(0, 0)
         surface.blit(text_surface, text_rect)
 
         # Value rendering
-        font = pygame.font.SysFont(DEFAULT_FONT_NAME, 40, bold=True)
+        font = get_font(36, bold=True)
         value_surface = font.render(value, True, (230, 230, 230))
-        value_rect = value_surface.get_rect(midbottom=surface.get_rect().midbottom).move(0, -5)
+        value_rect = value_surface.get_rect(midbottom=surface.get_rect().midbottom).move(0, 0)
         surface.blit(value_surface, value_rect)
 
         return surface
@@ -258,9 +263,9 @@ class Game2048:
     def _create_button(text: str) -> Surface:
         surface = pygame.Surface((110, 35))
         surface.fill((143, 122, 102))
-        font = pygame.font.SysFont(DEFAULT_FONT_NAME, 24)
+        font = get_font(24)
         text_surface = font.render(text, True, (220, 220, 220))
-        text_rect = text_surface.get_rect(center=surface.get_rect().center)
+        text_rect = text_surface.get_rect(center=surface.get_rect().center).move(0, -2)
         surface.blit(text_surface, text_rect)
         return surface
 
@@ -284,7 +289,7 @@ class Game2048:
                 pygame.draw.rect(self._field, block_color['bg'], block)
 
                 # Buttons text rendering
-                font = pygame.font.SysFont(DEFAULT_FONT_NAME, self._get_value_font_size(value))
+                font = get_font(self._get_value_font_size(value))
                 text = font.render(str(value), True, block_color['fg'])
                 text_rect = text.get_rect()
                 text_rect.move_ip(
