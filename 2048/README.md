@@ -16,3 +16,7 @@ pip install pygame
 ```bash
 python main.py
 ```
+
+### For Windows
+
+[Download exe-file](https://github.com/phpusr/2D-games/releases)
