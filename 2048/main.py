@@ -31,11 +31,21 @@ FIELD_COLORS[512] = dict(fg=(249, 246, 242), bg=(237, 200, 80))
 FIELD_COLORS[1024] = dict(fg=(249, 246, 242), bg=(237, 197, 63))
 FIELD_COLORS[2048] = dict(fg=(249, 246, 242), bg=(237, 194, 46))
 
+font_cache = dict()
+
 
 def get_font(size: int, bold: bool = False) -> Font:
+    font_cache_name = f'{size}{"-bold" if bold else ""}'
+    font = font_cache.get(font_cache_name)
+    if font:
+        return font
+
+    print('Load font: ', font_cache_name)
     path = pathlib.Path(__file__).parent.resolve()
     font_name = 'Oswald-Bold.ttf' if bold else 'Oswald-Regular.ttf'
-    return pygame.font.Font(path / 'fonts' / font_name, size)
+    font = pygame.font.Font(path / 'fonts' / font_name, size)
+    font_cache[font_cache_name] = font
+    return font
 
 
 class Game2048:
