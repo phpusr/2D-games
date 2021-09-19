@@ -5,6 +5,14 @@
 
 ## How to run
 
+### Before running install pygame
+
+```bash
+pip install pygame
+```
+
+### Run
+
 ```bash
 python main.py
 ```
