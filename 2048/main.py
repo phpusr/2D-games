@@ -32,9 +32,8 @@ FIELD_COLORS[2048] = dict(fg=(249, 246, 242), bg=(237, 194, 46))
 
 
 def get_font(size: int, bold: bool = False) -> Font:
-    font = pygame.font.Font('Oswald-Regular.ttf', size)
-    font.set_bold(bold)
-    return font
+    font_name = 'Oswald-Bold.ttf' if bold else 'Oswald-Regular.ttf'
+    return pygame.font.Font(font_name, size)
 
 
 class Game2048:
