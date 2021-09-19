@@ -1,4 +1,5 @@
 import json
+import pathlib
 import random
 import sys
 
@@ -32,8 +33,9 @@ FIELD_COLORS[2048] = dict(fg=(249, 246, 242), bg=(237, 194, 46))
 
 
 def get_font(size: int, bold: bool = False) -> Font:
+    path = pathlib.Path(__file__).parent.resolve()
     font_name = 'Oswald-Bold.ttf' if bold else 'Oswald-Regular.ttf'
-    return pygame.font.Font(font_name, size)
+    return pygame.font.Font(path / 'fonts' / font_name, size)
 
 
 class Game2048:
