@@ -1,5 +1,10 @@
 # -*- mode: python ; coding: utf-8 -*-
 
+import sys
+
+amd64 = sys.maxsize > 2**32
+filename = f'2048_{"x64" if amd64 else "x86"}'
+
 
 block_cipher = None
 
@@ -26,7 +31,7 @@ exe = EXE(pyz,
           a.zipfiles,
           a.datas,  
           [],
-          name='main',
+          name=filename,
           debug=False,
           bootloader_ignore_signals=False,
           strip=False,
