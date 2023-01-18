@@ -1,6 +1,8 @@
+import pathlib
 import sys
 
 import pygame
+from pygame.font import Font
 
 from logic import Snake, SnakeDirection, SnakeError
 
@@ -16,9 +18,26 @@ FPS = 60
 SNAKE_COLOR = (200, 10, 10)
 
 
+font_cache = dict()
+
+
+def get_font(size: int, bold: bool = False) -> Font:
+    font_cache_name = f'{size}{"-bold" if bold else ""}'
+    font = font_cache.get(font_cache_name)
+    if font:
+        return font
+
+    path = pathlib.Path(__file__).parent.resolve()
+    font_name = 'Oswald-Bold.ttf' if bold else 'Oswald-Regular.ttf'
+    font = pygame.font.Font(path / 'fonts' / font_name, size)
+    font_cache[font_cache_name] = font
+    return font
+
+
 class SnakeGame:
     def __init__(self):
         # Init data
+        self.game_over = False
         self.prev_direction = SnakeDirection.left
         self.current_direction = self.prev_direction
         self.snake = Snake(WIDTH_BLOCK_COUNT, HEIGHT_BLOCK_COUNT, self.current_direction)
@@ -53,7 +72,7 @@ class SnakeGame:
             try:
                 self.snake.move()
             except SnakeError:
-                pass
+                self.game_over = True
 
             self.draw_gui()
             clock.tick(FPS)
@@ -69,9 +88,19 @@ class SnakeGame:
             self.prev_direction = self.current_direction
 
     def draw_gui(self):
+        if self.game_over:
+            self.draw_game_over()
+            pygame.display.update()
+            return
+
         self.sc.fill((10, 30, 100))
         self.draw_snake()
         pygame.display.update()
+
+    def draw_game_over(self):
+        text = get_font(72).render('Game over', True, (0, 0, 0), (200, 200, 200))
+        text_rect = text.get_rect(center=(WIDTH / 2, HEIGHT / 2))
+        self.sc.blit(text, text_rect)
 
     def draw_snake(self):
         block_index = 0
