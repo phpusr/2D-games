@@ -33,6 +33,14 @@ class SnakeBlock:
     directions: list
 
 
+class SnakeError(RuntimeError):
+    pass
+
+
+class CrossError(SnakeError):
+    pass
+
+
 class Snake:
     def __init__(self, field_width: int, field_height: int, direction: SnakeDirection = SnakeDirection.left):
         self.prev_direction = SnakeDirection.left
@@ -82,3 +90,10 @@ class Snake:
 
             block.xcor += xdiff
             block.ycor += ydiff
+
+        # Checking block intersection
+        for index in range(len(self.blocks) - 1):
+            for index2 in range(index + 1, len(self.blocks)):
+                #print(f'Check cross: {index}:{index2}')
+                if self.blocks[index].xcor == self.blocks[index2].xcor and self.blocks[index].ycor == self.blocks[index2].ycor:
+                    raise CrossError()

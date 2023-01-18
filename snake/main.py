@@ -2,7 +2,7 @@ import sys
 
 import pygame
 
-from logic import Snake, SnakeDirection
+from logic import Snake, SnakeDirection, SnakeError
 
 WIDTH_BLOCK_COUNT = 50
 HEIGHT_BLOCK_COUNT = 30
@@ -49,7 +49,12 @@ class SnakeGame:
                         self.current_direction = SnakeDirection.right
             
             self.change_direction()
-            self.snake.move()
+            
+            try:
+                self.snake.move()
+            except SnakeError:
+                pass
+
             self.draw_gui()
             clock.tick(FPS)
             pygame.time.wait(1000 - self.snake.speed * 100)
