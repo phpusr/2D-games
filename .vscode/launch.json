@@ -8,8 +8,7 @@
             "name": "2048 Game",
             "type": "python",
             "request": "launch",
-            "cwd": "${workspaceFolder}/2048",
-            "program": "main.py",
+            "program": "2048/main.py",
             "console": "integratedTerminal",
             "justMyCode": true
         },

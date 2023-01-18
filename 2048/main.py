@@ -12,7 +12,7 @@ BLOCK_SIZE = 110
 BLOCK_MARGIN = 10
 TITLE_HEIGHT = 110
 ANIM_SLEEP_TIME = 25
-STORE_FILE = 'store.json'
+STORE_FILE = '2048/store.json'
 
 TITLE_COLOR = (243, 220, 202)
 FIELD_COLOR = (187, 173, 160)
@@ -40,9 +40,9 @@ def get_font(size: int, bold: bool = False) -> Font:
     if font:
         return font
 
-    path = pathlib.Path(__file__).parent.resolve()
+    path = pathlib.Path(__file__).parent.parent.resolve()
     font_name = 'Oswald-Bold.ttf' if bold else 'Oswald-Regular.ttf'
-    font = pygame.font.Font(path / 'fonts' / font_name, size)
+    font = pygame.font.Font(path / 'shared/fonts' / font_name, size)
     font_cache[font_cache_name] = font
     return font
 
