@@ -4,7 +4,8 @@ import sys
 import pygame
 from pygame.font import Font
 
-from logic import Snake, SnakeDirection, SnakeError
+from logic import Snake, SnakeDirection, GameOverException
+
 
 WIDTH_BLOCK_COUNT = 50
 HEIGHT_BLOCK_COUNT = 30
@@ -71,7 +72,7 @@ class SnakeGame:
             
             try:
                 self.snake.move()
-            except SnakeError:
+            except GameOverException:
                 self.game_over = True
 
             self.draw_gui()

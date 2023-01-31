@@ -33,11 +33,7 @@ class SnakeBlock:
     directions: list
 
 
-class SnakeError(RuntimeError):
-    pass
-
-
-class CrossError(SnakeError):
+class GameOverException(RuntimeError):
     pass
 
 
@@ -96,4 +92,4 @@ class Snake:
             for index2 in range(index + 1, len(self.blocks)):
                 #print(f'Check cross: {index}:{index2}')
                 if self.blocks[index].xcor == self.blocks[index2].xcor and self.blocks[index].ycor == self.blocks[index2].ycor:
-                    raise CrossError()
+                    raise GameOverException()
