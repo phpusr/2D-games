@@ -5,18 +5,9 @@ import pygame
 from pygame.font import Font
 
 from logic import Snake, SnakeDirection, GameOverException
+from constants import *
 
 
-WIDTH_BLOCK_COUNT = 50
-HEIGHT_BLOCK_COUNT = 30
-BLOCK_WIDTH = 20
-MARGIN_BLOCK = 3
-
-WIDTH = 1000
-HEIGHT = 600
-FPS = 60
-
-SNAKE_COLOR = (200, 10, 10)
 
 
 font_cache = dict()

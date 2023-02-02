@@ -1,7 +1,8 @@
-from queue import Queue
 import random
 from dataclasses import dataclass
 from enum import Enum
+
+from constants import WIDTH, HEIGHT
 
 
 class SnakeDirection(Enum):
@@ -46,8 +47,13 @@ class Snake:
         self.blocks = []
         self.step = 0
         padding = 5
-        start_xcor = random.randint(padding, field_width - padding)
-        start_ycor = random.randint(padding, field_height - padding)
+        self.start_field_xcor = padding
+        self.end_field_xcor = field_width - padding
+        self.start_field_ycor = padding
+        self.end_field_ycor = field_height - padding
+
+        start_xcor = random.randint(self.start_field_xcor, self.end_field_xcor)
+        start_ycor = random.randint(self.start_field_ycor, self.end_field_ycor)
 
         for index in range(10):
             self.blocks.append(SnakeBlock(
@@ -87,7 +93,15 @@ class Snake:
             block.xcor += xdiff
             block.ycor += ydiff
 
-        # Checking block intersection
+        # Out-of-bounds check
+        #TODO
+        head = self.blocks[0]
+        print(f'> head: {head.xcor}, {head.ycor}')
+        if head.xcor < self.start_field_xcor or head.xcor > self.end_field_xcor or \
+            head.ycor < self.start_field_xcor or head.ycor > self.end_field_xcor:
+                raise GameOverException()
+
+        # Block intersection check
         for index in range(len(self.blocks) - 1):
             for index2 in range(index + 1, len(self.blocks)):
                 #print(f'Check cross: {index}:{index2}')
